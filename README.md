@@ -95,6 +95,21 @@ print(tok_en.tokenize("Machine translation is a sub-domain of natural language p
 '''
 ```
 
+As you see, there are some noise in the extracted words, so we also provide a function to filter the result. It utilizes [spherecluster](https://github.com/jasonlaska/spherecluster) package to cluster all the words into two clusters, and predict the one with longer average length as a better group.
+
+```python
+from src.dist import distill
+
+words = tok_zh.tokenize("机器翻译是自然语言处理的一个子领域。")
+print(distill(model_zh, words, lang='zh'))
+words = tok_en.tokenize("Machine translation is a sub-domain of natural language processing.")
+print(distill(model_en, words, lang='en'))
+'''
+['机器翻译', '自然语言处理', '子领域']
+['machine translation', 'natural language processing']
+'''
+```
+
 # Applications
 
 * [XTool](https://lab.aminer.cn/xtool/)
