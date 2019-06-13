@@ -105,7 +105,7 @@ print(distill(model_zh, words, lang='zh'))
 words = tok_en.tokenize("Machine translation is a sub-domain of natural language processing.")
 print(distill(model_en, words, lang='en'))
 '''
-['机器翻译', '自然语言处理', '子领域']
+['机器翻译', '自然语言处理']
 ['machine translation', 'natural language processing']
 '''
 ```
