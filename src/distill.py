@@ -18,14 +18,16 @@ def is_stop(x):
 
 import numpy as np
 def cosine(x, y):
+    if x.dot(x) == 0 or y.dot(y) == 0: return -1
     return float(np.dot(x, y) / np.linalg.norm(x) / np.linalg.norm(y))
 
 def distill(model, words, lang='en'):
+    if len(words) == 0: return words
     if lang == 'en':
         words = [x for x in words  if not is_stop(x) and len(x[0]) > 1]
     if lang == 'zh':
         words = [x for x in words if x[0] not in stop and not pat.match(x[0]) and x[0].find('研究') == -1 and x[0].find('发表') == -1]
-    if len(words) <= 1: return words
+    if len(words) == 1: return [(words[0][0], words[0][1], 1.0)]
     wv = np.array([model[w[0]] for w in words])
     result = skm.fit(wv)
     labels = result.labels_
@@ -34,7 +36,11 @@ def distill(model, words, lang='en'):
     lens = [[], []]
     for v, l in zip(words, labels):
         lens[l].append(len(v[0]))
-    if len(lens[0]) == 0 or len(lens[1]) == 0: return words
-    pred = 0 if sum(lens[0]) / len(lens[0]) > sum(lens[1]) / len(lens[1]) else 1
+    if len(lens[0]) == 0:
+        pred = 1
+    elif len(lens[1]) == 0:
+        pred = 0
+    else:
+        pred = 0 if sum(lens[0]) / len(lens[0]) > sum(lens[1]) / len(lens[1]) else 1
     # print([v for v, l in zip(words, labels) if l==1-pred])
     return [(v[0], v[1], cosine(vec, centers[l])) for vec, v, l in zip(wv, words, labels) if l==pred]

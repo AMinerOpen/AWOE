@@ -2,6 +2,12 @@
 
 **A**cademic **WO**rd **E**mbedding based on [AMiner](https://www.aminer.cn) 2 billion publication data and [gensim](https://radimrehurek.com/gensim/index.html).
 
+# Dependencies
+
+* Python 3
+* gensim
+* spherecluster
+
 # Monolingual
 
 ## English Paper Keywords (EPK)
