@@ -35,10 +35,12 @@ class Mono:
     def sent2vec(self, words):
         vec = np.zeros(self.model.wv.vector_size)
         for w in words:
+            thvec = self.model[w[0]]
+            thvec /= thvec.dot(thvec)**0.5
             if len(w) == 1:
-                vec += self.model[w[0]]
+                vec += thvec
             else:
-                vec += self.model[w[0]] * w[-1]
+                vec += thvec * w[-1]
         return vec
     def cluster(self, docs, k):
         vecs = []
