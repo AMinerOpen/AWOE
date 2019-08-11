@@ -35,7 +35,7 @@ class Mono:
     def sent2vec(self, words):
         vec = np.zeros(self.model.wv.vector_size)
         for w in words:
-            thvec = self.model[w[0]]
+            thvec = self.model[w[0]].copy()
             thvec /= thvec.dot(thvec)**0.5
             if len(w) == 1:
                 vec += thvec
